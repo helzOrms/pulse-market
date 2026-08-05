@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация — PULSE</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Неоновый задний фон */
+        .glow {
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(30px); z-index: -1;
+        }
+        /* Тёмная карточка в стиле macOS */
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        h2 { 
+            font-family: 'Orbitron', sans-serif;
+            margin: 0 0 10px 0; 
+            color: #ffffff; 
+            font-size: 26px; 
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(59,130,246,0.3);
+        }
+        p { margin: 0 0 30px 0; color: #64748b; font-size: 14px; }
+        input {
+            width: 90%;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 14px;
+            color: white;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input:focus { 
+            border-color: #2563eb; 
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25); 
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+        .btn-login {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .btn-login:hover { background-color: #1d4ed8; }
+        .btn-reg { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            color: #94a3b8; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .btn-reg:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
+        .back-link { display: block; margin-top: 15px; color: #64748b; text-decoration: none; font-size: 13px; }
+        .back-link:hover { color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+    <div class="card">
+        <h2>PULSE</h2>
+        <p>Вход в панель управления</p>
+        
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Логин" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            
+            <button type="submit" class="btn-login">Войти</button>
+            <button type="submit" name="action" value="register" class="btn-reg">Регистрация</button>
+        </form>
+        <a href="/" class="back-link">← На главную</a>
+    </div>
+
+</body>
+</html>

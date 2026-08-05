@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — PULSE</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .glow {
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(40px); z-index: -1;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Аватарка в стиле macOS */
+        .avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 0 20px rgba(37,99,235,0.4);
+        }
+        h2 { 
+            font-family: 'Orbitron', sans-serif;
+            margin: 0 0 5px 0; color: #ffffff; font-size: 24px; letter-spacing: 1px;
+        }
+        .status-text { color: #64748b; font-size: 14px; margin-bottom: 25px; }
+        
+        /* Информационный блок тарифа */
+        .tariff-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tariff-label { color: #94a3b8; font-size: 14px; }
+        
+        /* Динамический цвет плашки тарифа в зависимости от того, что прислал Python */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .badge-free { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+        .badge-premium { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); text-shadow: 0 0 10px rgba(59,130,246,0.3); }
+
+        .btn-action {
+            display: block; width: 100%; padding: 12px 0;
+            text-decoration: none; border-radius: 12px;
+            font-weight: 600; font-size: 14px; transition: all 0.2s;
+            text-align: center; box-sizing: border-box;
+        }
+        .btn-back { background: #2563eb; color: white; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(37,99,235,0.2); }
+        .btn-back:hover { background: #1d4ed8; }
+        .btn-logout { background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.1); }
+        .btn-logout:hover { background: rgba(239, 68, 68, 0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+    <div class="card">
+        <!-- Берем первую букву имени пользователя для аватарки -->
+        <div class="avatar">{{ user_name[0] | upper }}</div>
+        <h2>{{ user_name }}</h2>
+        <p class="status-text">Добро пожаловать! {{ user_name }}</p>
+        
+        <div class="tariff-box">
+            <span class="tariff-label">Текущая подписка:</span>
+            <!-- Проверяем какой тариф у юзера и включаем нужный CSS класс -->
+            {% if user_tariff == 'premium' %}
+            <span class="badge badge-premium">Premium</span>
+            {% else %}
+            <span class="badge badge-free">Free</span>
+            {% endif %}
+        </div>
+        
+        <a href="/" class="btn-action btn-back">← На главную</a>
+        <a href="/logout" class="btn-action btn-logout">Выйти из аккаунта</a>
+    </div>
+
+</body>
+</html>

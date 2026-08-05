@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <link href="https://googleapis.com" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseVisuals Clone — Лучший мод для Minecraft</title>
+    <style>
+        /* Базовые стили тёмной темы в стиле macOS */
+        body {
+            background-color: #04060a;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; /* Плавный скролл по якорям */
+        }
+        
+        /* Навигационная панель (Шапка) с эффектом размытия стекла */
+                /* Обновленная центрированная шапка */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+            display: flex;
+            justify-content: center; /* Центрируем внутренний контейнер */
+        }
+        
+        /* Контейнер внутри шапки, который держит контент в центре */
+        .header-container {
+            width: 100%;
+            max-width: 1000px; /* Ограничиваем ширину, чтобы не улетала по краям */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+        }
+
+        /* Новый технологичный шрифт для логотипа */
+        .logo { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 24px; 
+            font-weight: 800; 
+            letter-spacing: 2px; 
+            color: #3b82f6; 
+            text-shadow: 0 0 20px rgba(59,130,246,0.5); 
+        }
+        nav a { color: #94a3b8; text-decoration: none; margin-left: 25px; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: #f8fafc; }
+        .btn-login { background: #2563eb; color: white; padding: 8px 18px; border-radius: 10px; box-shadow: 0 4px 12px rgba(37,99,235,0.2); }
+        .btn-login:hover { background: #1d4ed8; }
+
+        .logo { font-size: 22px; font-weight: 800; tracking-wide; color: #3b82f6; text-shadow: 0 0 20px rgba(59,130,246,0.3); }
+        nav a { color: #94a3b8; text-decoration: none; margin-left: 25px; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: #f8fafc; }
+        .btn-login { background: #2563eb; color: white; padding: 8px 18px; border-radius: 10px; box-shadow: 0 4px 12px rgba(37,99,235,0.2); }
+        .btn-login:hover { background: #1d4ed8; }
+
+        /* Главный экран (Hero Section) */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Неоновое свечение на заднем фоне */
+        .glow {
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 20%; filter: blur(40px); z-index: -1;
+        }
+        .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 20px; color: #ffffff; line-height: 1.2; }
+        .hero h1 span { color: #3b82f6; }
+        .hero p { font-size: 18px; color: #64748b; max-width: 600px; margin-bottom: 40px; }
+        .btn-main { padding: 14px 30px; background: #2563eb; color: white; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 10px 25px rgba(37,99,235,0.25); transition: all 0.2s; }
+        .btn-main:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+        /* Секция функций */
+        .section { padding: 100px 40px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .section h2 { font-size: 32px; font-weight: 700; margin-bottom: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 16px; text-align: left; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(59,130,246,0.3); }
+        .card-icon { font-size: 28px; margin-bottom: 15px; }
+        .card h3 { font-size: 20px; margin-bottom: 10px; color: #ffffff; }
+        .card p { font-size: 14px; color: #64748b; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+       <!-- Навигация с новым центрированным контейнером -->
+    <header>
+        <div class="header-container">
+            <div class="logo">PULSE</div>
+            <nav>
+                <a href="#">Главная</a>
+                <a href="#features">Функции</a>
+                <a href="#tariffs">Тарифы</a>
+                {% if current_user %}
+                <a href="/profile" class="btn-login">Профиль ({{ current_user }})</a>
+                {% else %}
+                <a href="/auth" class="btn-login">Логин</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Главный баннер -->
+    <div class="hero">
+        <div class="glow"></div>
+        <h1>Лучший мод для<br>комфортной игры в <span>Minecraft</span></h1>
+        <p>Pulse создан для тех, кто ценит стиль, удобство и максимальную производительность. Плавный геймплей и стабильная работа.</p>
+        <a href="#tariffs" class="btn-main">Выбрать тариф</a>
+    </div>
+
+    <!-- Раздел функции -->
+    <div id="features" class="section">
+        <h2>Почему выбирают Pulse?</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h3>Максимальный FPS</h3>
+                <p>Оптимизированный движок позволяет выжать максимум кадров даже на слабых компьютерах.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3>Кастомизация</h3>
+                <p>Полностью настраиваемый интерфейс, HUD элементы, плащи и уникальная косметика.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Полная защита</h3>
+                <p>Мод полностью разрешен на популярных серверах. Играйте спокойно, не боясь блокировок.</p>
+            </div>
+        </div>
+    </div>
+        <!-- Раздел тарифов -->
+    <div id="tariffs" class="section" style="border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 50px;">
+        <h2>Выберите свой тариф</h2>
+        <div class="grid">
+            
+            <!-- Бесплатный тариф -->
+            <div class="card" style="text-align: center; border-color: rgba(255,255,255,0.02);">
+                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 24px; color: #94a3b8;">FREE</h3>
+                <div style="font-size: 36px; font-weight: 800; margin: 20px 0; color: #ffffff;">0 ₽ <span style="font-size: 14px; color: #64748b; font-weight: 400;">/ навсегда</span></div>
+                <p style="text-align: center; margin-bottom: 30px;">Базовые функции мода, стандартный FPS и базовый HUD интерфейс.</p>
+                <button class="btn-main" style="width: 100%; background: #1e293b; box-shadow: none; cursor: not-allowed;" disabled>Активен по умолчанию</button>
+            </div>
+
+            <!-- Премиум тариф -->
+            <div class="card" style="text-align: center; border-color: rgba(59,130,246,0.2); background: rgba(59,130,246,0.02); position: relative; overflow: hidden;">
+                <!-- Неоновое свечение только для премиум карточки -->
+                <div style="position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, rgba(0,0,0,0) 70%); top: -50px; right: -50px; filter: blur(20px);"></div>
+                
+                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 24px; color: #3b82f6; text-shadow: 0 0 10px rgba(59,130,246,0.3);">PREMIUM</h3>
+                <div style="font-size: 36px; font-weight: 800; margin: 20px 0; color: #ffffff;">499 ₽ <span style="font-size: 14px; color: #64748b; font-weight: 400;">/ месяц</span></div>
+                <p style="text-align: center; margin-bottom: 30px;">Максимальный буст FPS, доступ к эксклюзивным плащам, косметике и приоритетной поддержке.</p>
+                
+                <!-- Форма отправляет запрос на сервер для покупки -->
+                <form action="/buy-premium" method="post">
+                    <button type="submit" class="btn-main" style="width: 100%; border: none; cursor: pointer;">Активировать Premium</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>

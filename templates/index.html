@@ -103,15 +103,22 @@
         <div class="header-container">
             <div class="logo">PULSE</div>
             <nav>
-                <a href="#">Главная</a>
-                <a href="#features">Функции</a>
-                <a href="#tariffs">Тарифы</a>
-                {% if current_user %}
-                <a href="/profile" class="btn-login">Профиль ({{ current_user }})</a>
-                {% else %}
-                <a href="/auth" class="btn-login">Логин</a>
-                {% endif %}
-            </nav>
+                       <nav>
+            <a href="#">Главная</a>
+            <a href="#features">Функции</a>
+            <a href="#tariffs">Тарифы</a>
+            
+            <!-- СЕКРЕТНАЯ ССЫЛКА: Показывается ТОЛЬКО если вошел admin -->
+            {% if current_user == 'admin' %}
+            <a href="/admin" style="color: #48bb78; font-weight: bold; text-shadow: 0 0 10px rgba(72,187,120,0.3);">🔧 Админка</a>
+            {% endif %}
+
+            {% if current_user %}
+            <a href="/profile" class="btn-login">Профиль ({{ current_user }})</a>
+            {% else %}
+            <a href="/auth" class="btn-login">Логин</a>
+            {% endif %}
+        </nav>
         </div>
     </header>
 

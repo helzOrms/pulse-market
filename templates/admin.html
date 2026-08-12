@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора — PULSE</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            padding: 40px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        h1 { 
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff; font-size: 28px; letter-spacing: 1px; margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(59,130,246,0.3);
+        }
+        
+        /* Стили таблицы пользователей */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        th { color: #64748b; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        td { color: #94a3b8; font-size: 15px; }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-free { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+        .badge-premium { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+
+        /* Кнопки управления */
+        .btn-toggle {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-grant { background: #2563eb; color: white; }
+        .btn-grant:hover { background: #1d4ed8; }
+        .btn-revoke { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .btn-revoke:hover { background: rgba(239, 68, 68, 0.2); }
+        
+        .btn-back {
+            display: inline-block;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .btn-back:hover { color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Панель администратора</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Текущий тариф</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Перебираем список пользователей из Python в цикле Jinja2 -->
+                {% for user_id, username, tariff in all_users %}
+                <tr>
+                    <td>{{ username }}</td>
+                    <td>
+                        {% if tariff == 'premium' %}
+                        <span class="badge badge-premium">Premium</span>
+                        {% else %}
+                        <span class="badge badge-free">Free</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Форма отправляет ID пользователя на сервер для изменения тарифа -->
+                        <form action="/admin/toggle-tariff" method="post" style="display: inline;">
+                            <input type="hidden" name="user_id" value="{{ user_id }}">
+                            <input type="hidden" name="current_tariff" value="{{ tariff }}">
+                            
+                            {% if tariff == 'premium' %}
+                            <button type="submit" class="btn-toggle btn-revoke">Забрать Premium</button>
+                            {% else %}
+                            <button type="submit" class="btn-toggle btn-grant">Выдать Premium</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="/" class="btn-back">← На главную страницу</a>
+    </div>
+
+</body>
+</html>
